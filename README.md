@@ -19,6 +19,20 @@ $validator->validate('foo', new Itin()); // NOT VALID
 $validator->validate('918-97-5273', new Itin()); // VALID
 ```
 
+### Birthday
+
+```php
+require_once './vendor/autoload.php';
+
+use mmo\sf\Validator\Constraints\Birthday;
+use Symfony\Component\Validator\Validation;
+
+$validator = Validation::createValidatorBuilder()->getValidator();
+$validator->validate((new DateTimeImmutable('now'))->modify('-5 years'), new Birthday(['minAge' => 18])); // NOT VALID
+$validator->validate((new DateTimeImmutable('now'))->modify('-120 years'), new Birthday()); // NOT VALID
+$validator->validate((new DateTimeImmutable('now'))->modify('-5 years'), new Birthday()); // VALID
+```
+
 ## Translator
 
 ### FakeTranslator
