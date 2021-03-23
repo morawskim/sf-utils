@@ -62,3 +62,13 @@ use mmo\sf\Translation\FakeTranslator;
 $translator = new FakeTranslator('en');
 $translator->trans('foo'); // en-foo
 ```
+
+## Security
+
+### FakePasswordEncoder
+
+FakePasswordEncoder does not do any encoding but is useful in testing environments.
+
+The main difference to PlaintextPasswordEncoder is prefix a password with a string.
+So in tests, we know whether sut encode a password or not.
+
