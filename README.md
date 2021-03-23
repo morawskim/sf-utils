@@ -67,8 +67,26 @@ $translator->trans('foo'); // en-foo
 
 ### FakePasswordEncoder
 
-FakePasswordEncoder does not do any encoding but is useful in testing environments.
+`FakePasswordEncoder` does not do any encoding but is useful in testing environments.
 
 The main difference to PlaintextPasswordEncoder is prefix a password with a string.
 So in tests, we know whether sut encode a password or not.
 
+### AlwaysTheSameEncoderFactory
+
+`AlwaysTheSameEncoderFactory`  is useful in integration tests with combination of `UserPasswordEncoder`. No matter which implementation of UserInterface you pass,
+will always be used the same password encoder injected via constructor.
+
+```php
+<?php
+
+require_once './vendor/autoload.php';
+
+use mmo\sf\Security\Test\AlwaysTheSameEncoderFactory;
+use Symfony\Component\Security\Core\Encoder\PlaintextPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+
+$factory = new AlwaysTheSameEncoderFactory(new PlaintextPasswordEncoder());
+$encoder = new UserPasswordEncoder($factory);
+// now you can pass $encoder to your service, which expect `UserPasswordEncoderInterface`
+```
