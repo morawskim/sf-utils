@@ -33,6 +33,19 @@ $validator->validate((new DateTimeImmutable('now'))->modify('-120 years'), new B
 $validator->validate((new DateTimeImmutable('now'))->modify('-5 years'), new Birthday()); // VALID
 ```
 
+### BankRoutingNumber
+
+```php
+require_once './vendor/autoload.php';
+
+use mmo\sf\Validator\Constraints\BankRoutingNumber;
+use Symfony\Component\Validator\Validation;
+
+$validator = Validation::createValidatorBuilder()->getValidator();
+$validator->validate('1234567890', new BankRoutingNumber()); // NOT VALID
+$validator->validate('275332587', new BankRoutingNumber()); // VALID
+```
+
 ## Translator
 
 ### FakeTranslator
