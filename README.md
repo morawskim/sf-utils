@@ -46,6 +46,21 @@ $validator->validate('1234567890', new BankRoutingNumber()); // NOT VALID
 $validator->validate('275332587', new BankRoutingNumber()); // VALID
 ```
 
+### Utf8Letters
+
+Only UTF-8 letters and dashes.
+
+```php
+require_once './vendor/autoload.php';
+
+use mmo\sf\Validator\Constraints\Utf8Letters;
+use Symfony\Component\Validator\Validation;
+
+$validator = Validation::createValidatorBuilder()->getValidator();
+$validator->validate('foo.bar', new Utf8Words()); // NOT VALID
+$validator->validate('Zażółć gęślą', new Utf8Words()); // VALID
+```
+
 ### ArrayConstraintValidatorFactory
 
 Validators which don't follow a convention of naming a Constraint and ConstraintValidator,
