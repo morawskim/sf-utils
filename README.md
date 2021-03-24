@@ -46,6 +46,26 @@ $validator->validate('1234567890', new BankRoutingNumber()); // NOT VALID
 $validator->validate('275332587', new BankRoutingNumber()); // VALID
 ```
 
+### ArrayConstraintValidatorFactory
+
+Validators which don't follow a convention of naming a Constraint and ConstraintValidator,
+will not be found by the default implementation of ConstraintValidatorFactory.
+
+The class `ArrayConstraintValidatorFactory` resolve this problem, you can map ConstraintValidator to object.
+
+```php
+use Symfony\Component\Validator\Validation;
+use mmo\sf\Validator\ArrayConstraintValidatorFactory;
+use Kiczort\PolishValidatorBundle\Validator\Constraints\NipValidator;
+
+// ....
+$validatorFactory = new ArrayConstraintValidatorFactory(['kiczort.validator.nip' => new NipValidator()]);
+$validator = Validation::createValidatorBuilder()
+            ->setConstraintValidatorFactory($validatorFactory)
+            ->getValidator();
+// ...
+```
+
 ## Translator
 
 ### FakeTranslator
