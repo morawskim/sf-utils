@@ -140,3 +140,11 @@ $factory = new AlwaysTheSameEncoderFactory(new PlaintextPasswordEncoder());
 $encoder = new UserPasswordEncoder($factory);
 // now you can pass $encoder to your service, which expect `UserPasswordEncoderInterface`
 ```
+
+## Form
+
+### RamseyUuidToStringTransformer
+
+Transforms between a UUID string, and a UUID object.
+Symfony 5.3 include an own `UuidToStringTransformer` transformer, but you need also use a symfony/uuid component.
+This transformer works with a `ramsey/uuid` library.
