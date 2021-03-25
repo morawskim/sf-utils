@@ -57,6 +57,21 @@ use mmo\sf\Validator\Constraints\Utf8Letters;
 use Symfony\Component\Validator\Validation;
 
 $validator = Validation::createValidatorBuilder()->getValidator();
+$validator->validate('foo.bar', new Utf8Letters()); // NOT VALID
+$validator->validate('Zażółć', new Utf8Letters()); // VALID
+```
+
+### Utf8Words
+
+Only UTF-8 letters, dashes, and spaces are allowed. Useful to validate the full name of a person.
+
+```php
+require_once './vendor/autoload.php';
+
+use mmo\sf\Validator\Constraints\Utf8Words;
+use Symfony\Component\Validator\Validation;
+
+$validator = Validation::createValidatorBuilder()->getValidator();
 $validator->validate('foo.bar', new Utf8Words()); // NOT VALID
 $validator->validate('Zażółć gęślą', new Utf8Words()); // VALID
 ```
