@@ -141,6 +141,26 @@ $encoder = new UserPasswordEncoder($factory);
 // now you can pass $encoder to your service, which expect `UserPasswordEncoderInterface`
 ```
 
+### MemoryUserProvider
+
+`MemoryUserProvider` is a simple non persistent user provider for tests.
+
+This provider compares to InMemoryUserProvider allows for store any user objects,
+which implement the UserInterface interface instead of only the internal Symfony User class.
+
+```php
+<?php
+
+require_once './vendor/autoload.php';
+
+use mmo\sf\Security\Test\MemoryUserProvider;
+use Symfony\Component\Security\Core\User\User;
+
+$provider = new MemoryUserProvider(User::class, []);
+$provider->createUser(new User('test', 'foo'));
+$provider->loadUserByUsername('test');
+```
+
 ## Form
 
 ### RamseyUuidToStringTransformer
