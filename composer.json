@@ -14,12 +14,12 @@
         "php": ">=7.2"
     },
     "require-dev": {
+        "lexik/jwt-authentication-bundle": "^2.11",
         "phpunit/phpunit": "^8.5",
         "ramsey/uuid": "^4.1",
-        "symfony/contracts": "^2.3",
-        "symfony/form": "^4.0",
-        "symfony/security-core": "^4.0",
-        "symfony/validator": "^4.0"
+        "symfony/form": "^4.4",
+        "symfony/security-core": "^4.4",
+        "symfony/validator": "^4.4"
     },
     "suggest": {
     },
