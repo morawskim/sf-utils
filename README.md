@@ -100,7 +100,8 @@ $validator = Validation::createValidatorBuilder()
 
 ### FakeTranslator
 
-The `FakeTranslator` class can be used in a unit tests to check whether the service used a translator to translate some messages.
+The `FakeTranslator` class can be used in a unit tests instead of using a stub.
+At the moment only `id` and `locale` arguments are supported.
 
 ```php
 <?php
@@ -111,6 +112,7 @@ use mmo\sf\Translation\FakeTranslator;
 
 $translator = new FakeTranslator('en');
 $translator->trans('foo'); // en-foo
+$translator->trans('foo', [], null, 'us'); // us-foo
 ```
 
 ## Security

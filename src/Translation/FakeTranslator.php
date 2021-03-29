@@ -14,15 +14,17 @@ class FakeTranslator implements TranslatorInterface
     /**
      * @var string
      */
-    private $prefix;
+    private $locale;
 
-    public function __construct(string $prefix)
+    public function __construct(string $locale)
     {
-        $this->prefix = $prefix;
+        $this->locale = $locale;
     }
 
     public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null)
     {
-        return sprintf("%s-%s", $this->prefix, $id);
+        $prefix = $locale ?? $this->locale;
+
+        return sprintf("%s-%s", $prefix, $id);
     }
 }

@@ -9,9 +9,17 @@ class FakeTranslatorTest extends TestCase
 {
     public function testTranslate(): void
     {
-        $translator = new FakeTranslator('foo');
+        $translator = new FakeTranslator('en');
         $messageId = 'bar';
 
-        $this->assertEquals('foo-bar', $translator->trans($messageId));
+        $this->assertEquals('en-bar', $translator->trans($messageId));
+    }
+
+    public function testOverwriteLocale(): void
+    {
+        $translator = new FakeTranslator('en');
+        $messageId = 'bar';
+
+        $this->assertEquals('pl-bar', $translator->trans($messageId, [], null, 'pl'));
     }
 }
