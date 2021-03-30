@@ -170,3 +170,48 @@ $provider->loadUserByUsername('test');
 Transforms between a UUID string, and a UUID object.
 Symfony 5.3 include an own `UuidToStringTransformer` transformer, but you need also use a symfony/uuid component.
 This transformer works with a `ramsey/uuid` library.
+
+## lexik/jwt-authentication-bundle
+
+### Revoke JWT token
+
+The JWT is stateful token. We don't need to store them. This property create problem, when we need to revoke (invalidate) a token.
+Some resources: [How to change a token to be invalid status?](https://github.com/lexik/LexikJWTAuthenticationBundle/issues/643) or
+[Invalidating JSON Web Tokens](https://stackoverflow.com/questions/21978658/invalidating-json-web-tokens/23089839#23089839)
+
+In a file `config/packages/cache.yaml` we register a new pool `cache.jwt`. In this example as adapter we use Redis.
+```yaml
+cache.jwt:
+    adapter: cache.adapter.redis
+```
+
+In a file `config/routes.yaml` we add a router:
+```yaml
+api_logout:
+    path: /api/sessions
+    controller: 'mmo\sf\JWTAuthenticationBundle\Controller\LogoutAction'
+    methods: DELETE
+```
+
+Finally, we need to register services in `config/services.yaml` file.
+We create alias for interface `JitGeneratorInterface` to `RamseyUuid4JitGenerator` and configure listeners.
+For `CheckRevokeListener` we need pass correct arguments for cache pool (we create custom pool - `cache.jwt` in `config/packages/cache.yaml`) and router name `api_logout`, which we add in a file `config/routes.yaml`
+```yaml
+mmo\sf\JWTAuthenticationBundle\Controller\LogoutAction:
+  tags: ['controller.service_arguments']
+  mmo\sf\JWTAuthenticationBundle\JitGenerator\RamseyUuid4JitGenerator: ~
+  mmo\sf\JWTAuthenticationBundle\JitGenerator\JitGeneratorInterface:
+    alias: mmo\sf\JWTAuthenticationBundle\JitGenerator\RamseyUuid4JitGenerator
+
+  mmo\sf\JWTAuthenticationBundle\Listener\CheckRevokeListener:
+    arguments:
+      - '@request_stack'
+      - '@cache.jwt'
+      - 'api_logout'
+      - 'key_prefix_in_cache.'
+    tags:
+      - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_decoded, method: onJWTDecoded }
+  mmo\sf\JWTAuthenticationBundle\Listener\AddJitClaimListener:
+    tags:
+      - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+```
