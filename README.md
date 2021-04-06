@@ -215,3 +215,21 @@ mmo\sf\JWTAuthenticationBundle\Controller\LogoutAction:
     tags:
       - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
 ```
+
+## Util
+
+### Transliterator
+
+Class `Transliterator` contains one static method `transliterate` to returns transliterated version of a string.
+[Based on yii2 Inflector](https://github.com/yiisoft/yii2/blob/054e25986123dafd052d1bbd6a35525412f4b4a1/framework/helpers/BaseInflector.php#L512)
+
+```php
+<?php
+
+require_once './vendor/autoload.php';
+
+use mmo\sf\Util\Transliterator;
+
+Transliterator::transliterate('¿Español?'); // Espanol?
+Transliterator::transliterate('Українська: ґанок, європа', Transliterator::TRANSLITERATE_STRICT); // Ukraí̈nsʹka: g̀anok, êvropa
+```

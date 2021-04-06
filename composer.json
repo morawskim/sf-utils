@@ -19,9 +19,11 @@
         "ramsey/uuid": "^4.1",
         "symfony/form": "^4.4",
         "symfony/security-core": "^4.4",
-        "symfony/validator": "^4.4"
+        "symfony/validator": "^4.4",
+        "ext-intl": "*"
     },
     "suggest": {
+        "ext-intl": "*"
     },
     "autoload": {
         "psr-4": {
