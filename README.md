@@ -233,3 +233,18 @@ use mmo\sf\Util\Transliterator;
 Transliterator::transliterate('¿Español?'); // Espanol?
 Transliterator::transliterate('Українська: ґанок, європа', Transliterator::TRANSLITERATE_STRICT); // Ukraí̈nsʹka: g̀anok, êvropa
 ```
+
+### EntityTestHelper
+
+The class `EntityTestHelper` helps set a value for a private field e.g. `id`.
+
+```php
+<?php
+
+require_once './vendor/autoload.php';
+
+use mmo\sf\Util\EntityTestHelper;
+
+EntityTestHelper::setPrivateProperty($entity, 12);
+EntityTestHelper::setPrivateProperty($entity, 12, 'fieldName');
+```
