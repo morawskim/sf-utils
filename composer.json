@@ -17,6 +17,7 @@
         "ext-intl": "*",
         "aws/aws-sdk-php": "^3.132.4",
         "lexik/jwt-authentication-bundle": "^2.11",
+        "liip/imagine-bundle": "^2.6",
         "phpunit/phpunit": "^8.5",
         "ramsey/uuid": "^4.1",
         "symfony/console": "^4.4",

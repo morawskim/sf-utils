@@ -274,3 +274,25 @@ services:
     arguments:
       $s3Client: '@s3client'
 ```
+
+## LiipImagineBundle
+
+### ResolverAlwaysStoredDecorator
+
+This resolver always returns true whether image already exists or not.
+
+```yaml
+liip_imagine:
+  # ...
+  cache: always_stored_resolver
+```
+
+```yaml
+services:
+  # ...
+  mmo\sf\ImagineBundle\ResolverAlwaysStoredDecorator:
+    arguments:
+      $resolver: '@liip_imagine.cache.resolver.offers'
+    tags:
+      - { name: "liip_imagine.cache.resolver", resolver: always_stored_resolver }
+```
