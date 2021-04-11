@@ -248,3 +248,29 @@ use mmo\sf\Util\EntityTestHelper;
 EntityTestHelper::setPrivateProperty($entity, 12);
 EntityTestHelper::setPrivateProperty($entity, 12, 'fieldName');
 ```
+
+## Commands
+
+### S3CreateBucketCommand
+
+Command `mmo:s3:create-bucket` creates a S3 bucket.
+To use this command you must register two services.
+In `config/services.yaml` register a service `s3client` and `mmo\sf\Command\S3CreateBucketCommand`.
+
+```yaml
+services:
+  # ...
+  s3client:
+    class: Aws\S3\S3Client
+    arguments:
+      - version: '2006-03-01' # or 'latest'
+        endpoint: '%env(AWS_S3_ENDPOINT)%'
+        use_path_style_endpoint: true
+        region: "us-east-1" # 'eu-central-1' for example
+        credentials:
+          key: '%env(AWS_S3_KEY)%'
+          secret: '%env(AWS_S3_SECRET)%'
+  mmo\sf\Command\S3CreateBucketCommand:
+    arguments:
+      $s3Client: '@s3client'
+```
