@@ -2,6 +2,8 @@
 
 namespace mmo\sf\tests\Util;
 
+use InvalidArgumentException;
+use mmo\sf\tests\data\EntityParentClass;
 use mmo\sf\Util\EntityTestHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -20,16 +22,18 @@ class EntityTestHelperTest extends TestCase
         $this->assertSame($name, $entity->getName());
     }
 
+    public function testThrowExceptionWhenPropertyNotFound(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $entity = $this->getEntity();
+        EntityTestHelper::setPrivateProperty($entity, 'foo', 'foo');
+    }
+
     private function getEntity(): object
     {
-        return new class() {
-            private $id;
+        return new class() extends EntityParentClass {
             private $name;
-
-            public function getId()
-            {
-                return $this->id;
-            }
 
             public function getName()
             {
