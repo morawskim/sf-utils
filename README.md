@@ -254,6 +254,9 @@ EntityTestHelper::setPrivateProperty($entity, 12, 'fieldName');
 ### S3CreateBucketCommand
 
 Command `mmo:s3:create-bucket` creates a S3 bucket.
+When the option `skip-if-exists` is enabled, and the bucket exists the process will finish successful.
+You can use the option `--public` so everyone can get objects from a bucket.
+
 To use this command you must register two services.
 In `config/services.yaml` register a service `s3client` and `mmo\sf\Command\S3CreateBucketCommand`.
 

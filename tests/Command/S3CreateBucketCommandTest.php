@@ -56,4 +56,29 @@ class S3CreateBucketCommandTest extends TestCase
 
         $this->assertSame(0, $commandTester->getStatusCode());
     }
+
+    public function testSkipIfBucketExists(): void
+    {
+        $bucket = 'foo';
+
+        $s3ClientMock = $this->getMockBuilder(S3Client::class)
+            ->disableOriginalConstructor()
+            ->addMethods(['createBucket'])
+            ->onlyMethods(['doesBucketExist'])
+            ->getMock();
+        $s3ClientMock->expects(self::once())
+            ->method('doesBucketExist')
+            ->willReturn(true);
+        $s3ClientMock->expects(self::never())
+            ->method('createBucket');
+
+        $commandTester = new CommandTester(new S3CreateBucketCommand($s3ClientMock));
+        $commandTester->execute([
+            'bucket' => $bucket,
+            '--skip-if-exists' => 1,
+        ], ['capture_stderr_separately' => true]);
+
+        $this->assertSame(0, $commandTester->getStatusCode());
+        $this->assertStringContainsString('already exists', $commandTester->getErrorOutput());
+    }
 }

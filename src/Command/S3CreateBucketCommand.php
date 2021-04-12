@@ -7,6 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class S3CreateBucketCommand extends Command
@@ -29,12 +30,21 @@ class S3CreateBucketCommand extends Command
         $this->setDescription(self::$defaultDescription)
             ->addArgument('bucket', InputArgument::REQUIRED, 'The name of the bucket to create')
             ->addOption('public', null, InputOption::VALUE_NONE, 'Mark a bucket as public (everyone can download files)')
+            ->addOption('skip-if-exists', null, InputOption::VALUE_NONE, 'Skip create a bucket (and setting public access control policy) if the bucket exists')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $errOutput = $output instanceof ConsoleOutputInterface ? $output->getErrorOutput() : $output;
         $bucket = $input->getArgument('bucket');
+
+        if ($input->getOption('skip-if-exists') && $this->s3Client->doesBucketExist($bucket)) {
+            $errOutput->writeln(sprintf('Bucket "%s" already exists', $bucket));
+
+            return 0;
+        }
+
         $this->s3Client->createBucket(['Bucket' => $bucket]);
 
         if ($input->getOption('public')) {
