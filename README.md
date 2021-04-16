@@ -171,6 +171,10 @@ Transforms between a UUID string, and a UUID object.
 Symfony 5.3 include an own `UuidToStringTransformer` transformer, but you need also use a symfony/uuid component.
 This transformer works with a `ramsey/uuid` library.
 
+### PrimaryKeyToEntityTransformer
+
+Transforms between a primary key(composite primary key is not supported), and an entity.
+
 ## lexik/jwt-authentication-bundle
 
 ### Revoke JWT token
