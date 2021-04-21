@@ -303,3 +303,14 @@ services:
     tags:
       - { name: "liip_imagine.cache.resolver", resolver: always_stored_resolver }
 ```
+
+## cyve/json-schema-form-bundle
+
+### CyveJsonSchemaMapper
+
+The default implementation of data mapper (`PropertyPathMapperTest`) also set array key when the value is null
+This is a problem when fields in JsonSchema are not required.
+Schema validator doesn't check whether the field value is set. This is something different from the Symfony Validator component.
+In Symfony if the field value is the null or empty string, the validation is skipped.
+In JsonSchemaValidator event optional field with value null must match validation rules.
+Also cyve/json-schema-form-bundle not supported multiple types of field.
