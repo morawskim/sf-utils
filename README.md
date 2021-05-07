@@ -253,6 +253,33 @@ EntityTestHelper::setPrivateProperty($entity, 12);
 EntityTestHelper::setPrivateProperty($entity, 12, 'fieldName');
 ```
 
+### ObjectHelper
+
+#### arrayToObject
+
+This static method recursive converts an array to stdClass.
+
+``` php
+<?php
+
+require_once './vendor/autoload.php';
+
+use mmo\sf\Util\ObjectHelper;
+
+$object = ObjectHelper::arrayToObject(['foo' => 'bar', 'baz' => ['foo' => 'bar']]);
+
+// class stdClass#3 (2) {
+//   public $foo =>
+//   string(3) "bar"
+//   public $baz =>
+//   class stdClass#2 (1) {
+//     public $foo =>
+//     string(3) "bar"
+//   }
+// }
+
+```
+
 ## Commands
 
 ### S3CreateBucketCommand
