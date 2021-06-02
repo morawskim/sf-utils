@@ -25,6 +25,7 @@
         "symfony/console": "^4.4",
         "symfony/form": "^4.4",
         "symfony/security-core": "^4.4",
+        "symfony/serializer": "^4.4",
         "symfony/validator": "^4.4"
     },
     "suggest": {

@@ -341,3 +341,32 @@ Schema validator doesn't check whether the field value is set. This is something
 In Symfony if the field value is the null or empty string, the validation is skipped.
 In JsonSchemaValidator event optional field with value null must match validation rules.
 Also cyve/json-schema-form-bundle not supported multiple types of field.
+
+## Serializer
+
+### MyCLabsEnumNormalizer
+
+Normalizer and denormalizer for Enum class from package `myclabs/php-enum`.
+
+```php
+<?php
+
+require_once './vendor/autoload.php';
+
+use mmo\sf\Serializer\Normalizer\MyCLabsEnumNormalizer;
+use MyCLabs\Enum\Enum;
+use Symfony\Component\Serializer\Serializer;
+
+/**
+ * @method static static DRAFT()
+ * @method static static PUBLISHED()
+ */
+class MyEnum extends Enum
+{
+    private const DRAFT = 'draft';
+    private const PUBLISHED = 'published';
+}
+
+$serializer = new Serializer([new MyCLabsEnumNormalizer()]);
+$serializer->denormalize('draft', MyEnum::class); // return instance of MyEnum
+```
