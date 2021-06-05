@@ -19,6 +19,7 @@
         "doctrine/orm": "^2.8",
         "lexik/jwt-authentication-bundle": "^2.11",
         "liip/imagine-bundle": "^2.6",
+        "moneyphp/money": "^3.3",
         "myclabs/php-enum": "^1.7",
         "phpunit/phpunit": "^8.5",
         "ramsey/uuid": "^4.1",

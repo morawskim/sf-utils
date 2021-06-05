@@ -370,3 +370,20 @@ class MyEnum extends Enum
 $serializer = new Serializer([new MyCLabsEnumNormalizer()]);
 $serializer->denormalize('draft', MyEnum::class); // return instance of MyEnum
 ```
+
+### MoneyNormalizer
+
+Normalizer and denormalizer for Money class from package `moneyphp/money`.
+
+```php
+<?php
+
+require_once './vendor/autoload.php';
+
+use Money\Money;
+use mmo\sf\Serializer\Normalizer\MoneyNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+$serializer = new Serializer([new MoneyNormalizer()]);
+$money = $serializer->denormalize($serializer->normalize(Money::EUR(100)), Money::class);
+```
