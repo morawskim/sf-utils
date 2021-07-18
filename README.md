@@ -76,6 +76,23 @@ $validator->validate('foo.bar', new Utf8Words()); // NOT VALID
 $validator->validate('Zażółć gęślą', new Utf8Words()); // VALID
 ```
 
+### OnlyDigits
+
+Only digits are allowed.
+
+```php
+<?php
+
+use mmo\sf\Validator\Constraints\OnlyDigits;
+use Symfony\Component\Validator\Validation;
+
+require_once './vendor/autoload.php';
+
+$validator = Validation::createValidatorBuilder()->getValidator();
+$violations = $validator->validate('f1234', new OnlyDigits()); // NOT VALID
+$violations = $validator->validate('1234567', new OnlyDigits()); // VALID
+```
+
 ### ArrayConstraintValidatorFactory
 
 Validators which don't follow a convention of naming a Constraint and ConstraintValidator,
