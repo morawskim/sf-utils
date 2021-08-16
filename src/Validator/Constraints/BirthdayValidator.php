@@ -53,7 +53,8 @@ class BirthdayValidator extends ConstraintValidator
                     ->setParameter('{{ age }}', $this->formatValue($constraint->minAge))
                     ->addViolation();
             } else {
-                $context->getViolations()->add($violation);
+                $context->buildViolation($constraint->message)
+                    ->addViolation();
             }
         }
     }
