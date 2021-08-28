@@ -359,6 +359,24 @@ In Symfony if the field value is the null or empty string, the validation is ski
 In JsonSchemaValidator event optional field with value null must match validation rules.
 Also cyve/json-schema-form-bundle not supported multiple types of field.
 
+## Doctrine
+
+### IgnoreSchemaTablesListener
+
+This listener expects table names, which will be ignored during comparing database schema with entities.
+It is useful when you manually manage the table's schema for some of your entities.
+This is a similar solution to Manual tables from [DoctrineMigrationsBundle](https://symfony.com/bundles/DoctrineMigrationsBundle/current/index.html#manual-tables)
+
+```yaml
+mmo\sf\Doctrine\IgnoreSchemaTablesListener:
+  arguments:
+    $ignoredTables: 
+      - schema._table1_
+      - schema.table2
+  tags:
+    - {name: doctrine.event_listener, event: postGenerateSchema }
+```
+
 ## Serializer
 
 ### MyCLabsEnumNormalizer
