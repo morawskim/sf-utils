@@ -422,3 +422,39 @@ use Symfony\Component\Serializer\Serializer;
 $serializer = new Serializer([new MoneyNormalizer()]);
 $money = $serializer->denormalize($serializer->normalize(Money::EUR(100)), Money::class);
 ```
+
+## EventSubscriber
+
+## PerformanceSubscriber
+
+This listener connects to HttpKernel events (RequestEvent and TerminateEvent) to log the performance of an endpoint via LoggerInterface.
+The entry in the log includes duration, HTTP method, URL, and PID.
+Analysis of those data allows us to find the most time-consuming endpoints. We can have some suspects and start a deeper analysis of the performance of those endpoints via Xdebug or Blackfire.
+
+Create a new channel and handler for monolog in `config/packages/monolog.yaml`.
+
+```yaml
+# config/packages/monolog.yaml
+
+monolog:
+  channels: ['performance']
+  handlers:
+    performancelog:
+      type: stream
+      path: php://stderr
+      level: debug
+      channels: [performance]
+```
+
+Next register listener in `config/services.yaml`.
+
+```yaml
+# config/services.yaml
+services:
+  mmo\sf\EventSubscriber\PerformanceSubscriber:
+    arguments:
+      $logger: '@monolog.logger.performance'
+```
+
+When we refresh page in log (in this configuration logs are sent to stderr) we should see something like this:
+`[2021-08-30 15:15:19] performance.INFO: The request "GET /admin/login" took "1.041289" second. {"url":"/admin/login","method":"GET","pid":7,"status_code":200}`
