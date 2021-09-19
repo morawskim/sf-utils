@@ -192,6 +192,46 @@ This transformer works with a `ramsey/uuid` library.
 
 Transforms between a primary key(composite primary key is not supported), and an entity.
 
+### StringInsteadNullTransformer
+
+The goal of this transformer is to fix an error when you have a form with ChoiceType and pass an empty value for this field and
+your entity/DTO expect only string value you get error "Expected argument of type "string", "NULL" given at property path ...".
+
+The Symfony changes this empty string to null value (due to [ChoiceToValueTransformer](https://github.com/symfony/form/blob/5.4/Extension/Core/DataTransformer/ChoiceToValueTransformer.php#L44)).
+You can add StringInsteadNullTransformer as a model transformer, so null values will be transformed to an empty string.
+
+```php
+//...
+
+use mmo\sf\Form\DataTransformer\StringInsteadNullTransformer;
+
+class StateType extends AbstractType
+{
+    private StatesProviderInterface $statesProvider;
+
+    public function __construct(StatesProviderInterface $statesProvider)
+    {
+        $this->statesProvider = $statesProvider;
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->addModelTransformer(new StringInsteadNullTransformer());
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(['choices' => $this->statesProvider->getStates()]);
+    }
+
+    public function getParent(): string
+    {
+        return ChoiceType::class;
+    }
+}
+
+```
+
 ## lexik/jwt-authentication-bundle
 
 ### Revoke JWT token
