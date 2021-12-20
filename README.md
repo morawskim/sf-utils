@@ -375,6 +375,13 @@ This resolver always returns true whether image already exists or not.
 ```yaml
 liip_imagine:
   # ...
+  resolvers:
+    offers:
+      flysystem:
+        filesystem_service: oneup_flysystem.images_filesystem
+        root_url:           "%env(AWS_S3_URL)%"
+        cache_prefix:       miniatures
+        visibility:         public
   cache: always_stored_resolver
 ```
 
