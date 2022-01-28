@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Invalid a routing number.</source>
+                <target>Invalid a routing number.</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Invalid a birthday date.</source>
+                <target>Invalid a birthday date.</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>You must be at least {{ age }} years old.</source>
+                <target>You must be at least {{ age }} years old.</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Entity "%entity%" with property "%property%": "%value%" does not exist.</source>
+                <target>Entity "%entity%" with property "%property%": "%value%" does not exist.</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>This is not a valid ITIN number.</source>
+                <target>This is not a valid ITIN number.</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Only digits are allowed.</source>
+                <target>Only digits are allowed.</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Only letters are allowed.</source>
+                <target>Only letters are allowed.</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Only letters and spaces are allowed.</source>
+                <target>Only letters and spaces are allowed.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
