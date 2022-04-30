@@ -49,12 +49,12 @@ class ValueToMyCLabsEnumTransformerTest extends TestCase
         $this->assertNull($reverseTransformer->reverseTransform(null));
     }
 
-    public function testReverseTransformExpectsString(): void
+    public function testThrowExceptionIfValueNotExistsInEnum(): void
     {
         $reverseTransformer = new ValueToMyCLabsEnumTransformer(StatusEnum::class);
 
         $this->expectException(TransformationFailedException::class);
 
-        $reverseTransformer->reverseTransform(1234);
+        $reverseTransformer->reverseTransform('foo');
     }
 }
