@@ -2,7 +2,6 @@
 
 namespace mmo\sf\tests\Form;
 
-use mmo\sf\tests\data\FormToTestReplaceValueDto;
 use mmo\sf\tests\data\FormToTestReplaceValueType;
 use mmo\sf\tests\data\PersonDto;
 use Symfony\Component\EventDispatcher\EventDispatcher;

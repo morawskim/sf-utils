@@ -232,6 +232,68 @@ class StateType extends AbstractType
 
 ```
 
+### ReplaceIfNotSubmittedListener
+
+The goal of this EventSubscriber is to overwrite data of model, when no data has been sent.
+Imagine scenario, that you have entities:
+
+```php
+class FormDto
+{
+    /**
+     * @var string|null 
+    */
+    public $text;
+    
+    /**
+     * @var PersonDto|null
+     */
+    public $person;
+}
+
+class PersonDto
+{
+    /**
+     * @var string|null
+     */
+    public $firstName;
+
+    /**
+     * @var string|null
+     */
+    public $lastName;
+}
+
+```
+Property $person is not null.
+You want to set this value to null, because PersonDto cannot be in "split state".
+Both properties of PersonDto has to be set (cannot be empty).
+When the form is submitted, and Symfony parameter `$clearMissing` of method `submit` is set to `false`,
+then due to this EventSubscriber the property `person` of `FormDto` will be set to null value.
+Without this EventSubscriber, an empty PersonDto object will be created which will be passed to `FormDto`.
+
+See also test `\mmo\sf\tests\Form\ReplaceIfNotSubmittedFormTest`.
+
+```php
+
+use mmo\sf\Form\ReplaceIfNotSubmittedListener;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class FormToTestReplaceValueType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->add('text', TextType::class);
+        $builder->add('person', PersonType::class, [
+            'required' => false,
+        ]);
+        $builder->get('person')->addEventSubscriber(new ReplaceIfNotSubmittedListener(null));
+    }
+}
+```
+
 ## lexik/jwt-authentication-bundle
 
 ### Revoke JWT token

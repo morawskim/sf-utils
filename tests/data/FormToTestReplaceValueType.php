@@ -18,4 +18,3 @@ class FormToTestReplaceValueType extends AbstractType
         $builder->get('person')->addEventSubscriber(new ReplaceIfNotSubmittedListener(null));
     }
 }
-
