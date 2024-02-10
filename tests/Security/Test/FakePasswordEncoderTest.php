@@ -4,9 +4,17 @@ namespace mmo\sf\tests\Security\Test;
 
 use mmo\sf\Security\Test\FakePasswordEncoder;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\PasswordHasher\Hasher\PlaintextPasswordHasher;
 
 class FakePasswordEncoderTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        if (class_exists(PlaintextPasswordHasher::class)) {
+            $this->markTestSkipped('This test requires Symfony 4.4');
+        }
+    }
+
     public function testPasswordValid(): void
     {
         $sut = new FakePasswordEncoder('foo-');

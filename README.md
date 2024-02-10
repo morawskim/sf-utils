@@ -134,7 +134,7 @@ $translator->trans('foo', [], null, 'us'); // us-foo
 
 ## Security
 
-### FakePasswordEncoder
+### FakePasswordEncoder (only Symfony 4)
 
 `FakePasswordEncoder` does not do any encoding but is useful in testing environments.
 
