@@ -11,6 +11,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class AlwaysTheSameEncoderFactoryTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        if (!class_exists(PasswordEncoderInterface::class)) {
+            $this->markTestSkipped('This test requires Symfony 4.4 or 5.4');
+        }
+    }
+
     public function testFactory(): void
     {
         $mock = $this->createMock(PasswordEncoderInterface::class);

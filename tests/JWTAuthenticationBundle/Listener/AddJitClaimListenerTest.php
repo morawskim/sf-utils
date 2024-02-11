@@ -6,14 +6,20 @@ use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use mmo\sf\JWTAuthenticationBundle\JitGenerator\JitGeneratorInterface;
 use mmo\sf\JWTAuthenticationBundle\Listener\AddJitClaimListener;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 use Symfony\Component\Security\Core\User\User;
 
 class AddJitClaimListenerTest extends TestCase
 {
     public function eventProvider(): iterable
     {
-        yield 'basic' => [new JWTCreatedEvent([], new User('test', 'foo')), 1];
-        yield 'merge_array' => [new JWTCreatedEvent(['key' => 'value'], new User('test', 'foo')), 2];
+        if (class_exists(User::class)) {
+            yield 'basic' => [new JWTCreatedEvent([], new User('test', 'foo')), 1];
+            yield 'merge_array' => [new JWTCreatedEvent(['key' => 'value'], new User('test', 'foo')), 2];
+        } else {
+            yield 'basic' => [new JWTCreatedEvent([], new InMemoryUser('test', 'foo')), 1];
+            yield 'merge_array' => [new JWTCreatedEvent(['key' => 'value'], new InMemoryUser('test', 'foo')), 2];
+        }
     }
 
     /**

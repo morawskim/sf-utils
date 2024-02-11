@@ -22,7 +22,7 @@
         "liip/imagine-bundle": "^2.6",
         "moneyphp/money": "^3.3",
         "myclabs/php-enum": "^1.7",
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^9.6",
         "psr/log": "^1.1",
         "ramsey/uuid": "^4.1",
         "symfony/console": "^4.4",

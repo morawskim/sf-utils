@@ -141,7 +141,7 @@ $translator->trans('foo', [], null, 'us'); // us-foo
 The main difference to PlaintextPasswordEncoder is prefix a password with a string.
 So in tests, we know whether sut encode a password or not.
 
-### AlwaysTheSameEncoderFactory
+### AlwaysTheSameEncoderFactory (Symofny 4.4 and 5.4)
 
 `AlwaysTheSameEncoderFactory`  is useful in integration tests with combination of `UserPasswordEncoder`. No matter which implementation of UserInterface you pass,
 will always be used the same password encoder injected via constructor.
@@ -160,7 +160,9 @@ $encoder = new UserPasswordEncoder($factory);
 // now you can pass $encoder to your service, which expect `UserPasswordEncoderInterface`
 ```
 
-### MemoryUserProvider
+### MemoryUserProvider (only Symfony 4.4 nad 5.4)
+
+For Symfony 6.4+ use build-in provider `\Symfony\Component\Security\Core\User\InMemoryUserProvider`.
 
 `MemoryUserProvider` is a simple non persistent user provider for tests.
 

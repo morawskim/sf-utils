@@ -6,10 +6,18 @@ use LogicException;
 use mmo\sf\Security\Test\MemoryUserProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 use Symfony\Component\Security\Core\User\User;
 
 class MemoryUserProviderTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        if (class_exists(InMemoryUser::class)) {
+            $this->markTestSkipped('This test requires Symfony 4.4 or 5.4');
+        }
+    }
+
     public function testConstructor(): void
     {
         $provider = $this->createProvider();

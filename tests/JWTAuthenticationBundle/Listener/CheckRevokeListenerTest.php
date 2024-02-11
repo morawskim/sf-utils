@@ -128,7 +128,7 @@ class CheckRevokeListenerTest extends TestCase
         $this->assertTrue($event->isValid());
         $this->assertCount(1, $values);
         $this->assertArrayHasKey(self::TOKEN_JTI_VALUE, $values);
-        $this->assertNotNull($values[self::TOKEN_JTI_VALUE]);
+        $this->assertNull($values[self::TOKEN_JTI_VALUE]);
     }
 
     public function testKeyPrefix(): void

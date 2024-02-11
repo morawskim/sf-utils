@@ -4,6 +4,7 @@ namespace mmo\sf\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\Event\TerminateEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
@@ -25,7 +26,7 @@ class PerformanceSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if (!$event->isMasterRequest()) {
+        if (!$this->isMainRequest($event)) {
             return;
         }
 
@@ -35,7 +36,7 @@ class PerformanceSubscriber implements EventSubscriberInterface
 
     public function onKernelTerminate(TerminateEvent $event): void
     {
-        if (!$event->isMasterRequest()) {
+        if (!$this->isMainRequest($event)) {
             return;
         }
 
@@ -49,6 +50,15 @@ class PerformanceSubscriber implements EventSubscriberInterface
             sprintf('The request "{method} {url}" took "%s" second.', number_format($duration, 6)),
             $data
         );
+    }
+
+    private function isMainRequest(KernelEvent $event): bool
+    {
+        if (method_exists($event, 'isMasterRequest')) {
+            return $event->isMasterRequest();
+        }
+
+        return $event->isMainRequest();
     }
 
     public static function getSubscribedEvents(): array

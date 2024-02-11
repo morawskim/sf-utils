@@ -21,10 +21,15 @@ class FakeTranslator implements TranslatorInterface
         $this->locale = $locale;
     }
 
-    public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null)
+    public function trans(string $id, array $parameters = [], string $domain = null, string $locale = null): string
     {
         $prefix = $locale ?? $this->locale;
 
         return sprintf("%s-%s", $prefix, $id);
+    }
+
+    public function getLocale(): string
+    {
+        return $this->locale;
     }
 }
