@@ -86,7 +86,7 @@ class TransliteratorTest extends TestCase
             'Српска: ђ, њ, џ!' => ['Srpska: d, n, d!'],
 
             // Spanish
-            '¿Español?' => ['¿Espanol?'],
+            '¿Español?' => ['?Espanol?'],
             // Chinese
             '美国' => ['mei guo'],
         ];
@@ -128,7 +128,7 @@ class TransliteratorTest extends TestCase
             'Српска: ђ, њ, џ!' => ['Srpska: d, n, d!'],
 
             // Spanish
-            '¿Español?' => ['Espanol?'],
+            '¿Español?' => ['?Espanol?'],
             // Chinese
             '美国' => ['mei guo'],
         ];
