@@ -134,13 +134,6 @@ $translator->trans('foo', [], null, 'us'); // us-foo
 
 ## Security
 
-### FakePasswordEncoder (only Symfony 4)
-
-`FakePasswordEncoder` does not do any encoding but is useful in testing environments.
-
-The main difference to PlaintextPasswordEncoder is prefix a password with a string.
-So in tests, we know whether sut encode a password or not.
-
 ### AlwaysTheSameEncoderFactory (Symofny 4.4 and 5.4)
 
 `AlwaysTheSameEncoderFactory`  is useful in integration tests with combination of `UserPasswordEncoder`. No matter which implementation of UserInterface you pass,
