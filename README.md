@@ -134,6 +134,23 @@ $translator->trans('foo', [], null, 'us'); // us-foo
 
 ## Security
 
+### Encrypter
+
+`Encrypter` is used to encrypt string value.
+All encrypted values are encrypted using OpenSSL and the AES-256-CBC cipher (as default).
+
+```php
+<?php
+
+use mmo\sf\Util\Encrypter;
+
+require_once './vendor/autoload.php';
+
+$encrypter = new Encrypter('my-secret-key');
+$secret = $encrypter->encryptString('secret message');
+$plaintext = $encrypter->decryptString($secret); 
+```
+
 ### AlwaysTheSameEncoderFactory (Symofny 4.4 and 5.4)
 
 `AlwaysTheSameEncoderFactory`  is useful in integration tests with combination of `UserPasswordEncoder`. No matter which implementation of UserInterface you pass,
