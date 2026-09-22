@@ -12,7 +12,7 @@
   "minimum-stability": "stable",
   "require": {
     "php": ">=8.3",
-    "symfony/messenger": "^7.4"
+    "symfony/messenger": "^7.0"
   },
   "require-dev": {
     "promphp/prometheus_client_php": "^2.0",
