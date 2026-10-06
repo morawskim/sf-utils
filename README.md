@@ -579,3 +579,27 @@ services:
 
 When we refresh page in log (in this configuration logs are sent to stderr) we should see something like this:
 `[2021-08-30 15:15:19] performance.INFO: The request "GET /admin/login" took "1.041289" second. {"url":"/admin/login","method":"GET","pid":7,"status_code":200}`
+
+## Messenger
+
+### MetricsMiddleware
+
+`MetricsMiddleware` (`mmo\sf\Messenger\MetricsMiddleware\MetricsMiddleware`) is a Symfony Messenger middleware that collects metrics about message consumption and sending.
+It measures execution time and counts total sent/processed messages, including error status.
+
+It requires an implementation of `mmo\sf\Messenger\MetricsMiddleware\MetricRegistryInterface` to store the metrics (e.g., `mmo\sf\Messenger\MetricsMiddleware\MetricRegistry\PrometheusMetricRegistry` using Prometheus via `promphp/prometheus_client_php`).
+
+```php
+use mmo\sf\Messenger\MetricsMiddleware\MetricsMiddleware;
+use mmo\sf\Messenger\MetricsMiddleware\MetricRegistry\PrometheusMetricRegistry;
+use Prometheus\CollectorRegistry;
+use Symfony\Component\Messenger\MessageBus;
+
+$metricRegistry = new PrometheusMetricRegistry($collectorRegistry);
+$metricsMiddleware = new MetricsMiddleware($metricRegistry);
+
+$bus = new MessageBus([
+    $metricsMiddleware,
+    // ...
+]);
+```

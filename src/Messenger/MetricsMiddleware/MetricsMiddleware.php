@@ -32,10 +32,6 @@ class MetricsMiddleware implements MiddlewareInterface
 
     private function handleConsume(Envelope $envelope, StackInterface $stack): Envelope
     {
-        /** @var ReceivedStamp|null $receivedStamp */
-        $receivedStamp = $envelope->last(ReceivedStamp::class);
-        $destination = $receivedStamp?->getTransportName() ?? '-';
-
         $start = hrtime(true);
         $exception = null;
 
@@ -47,19 +43,24 @@ class MetricsMiddleware implements MiddlewareInterface
             throw $e;
         } finally {
             try {
-                $this->recordConsumeMetrics($destination, $start, $exception);
+                $this->recordConsumeMetrics($envelope, $start, $exception);
             } catch (\Throwable) {
             }
         }
     }
 
-    private function recordConsumeMetrics(string $destination, int|float $start, ?\Throwable $exception): void
+    private function recordConsumeMetrics(Envelope $envelope, int|float $start, ?\Throwable $exception): void
     {
+        /** @var ReceivedStamp|null $receivedStamp */
+        $receivedStamp = $envelope->last(ReceivedStamp::class);
+        $destination = $receivedStamp?->getTransportName() ?? '-';
+        $classString = get_class($envelope->getMessage());
+
         $error = $exception ? 1 : 0;
-        $this->metricRegistry->increaseConsumeCounter(1, $destination, $error);
+        $this->metricRegistry->increaseConsumeCounter(1, $destination, $error, $classString);
 
         $durationSeconds = (hrtime(true) - $start) / 1_000_000_000;
-        $this->metricRegistry->observeProcessingDurationOperation($durationSeconds, $destination, $error);
+        $this->metricRegistry->observeProcessingDurationOperation($durationSeconds, $destination, $error, $classString);
     }
 
     private function handleSent(Envelope $envelope, StackInterface $stack): Envelope
@@ -91,9 +92,10 @@ class MetricsMiddleware implements MiddlewareInterface
         foreach ($sentStamps as $stamp) {
             /** @var SentStamp $stamp */
             $destination = $stamp->getSenderAlias() ?? $stamp->getSenderClass();
+            $messageClass = get_class($envelope->getMessage());
 
-            $this->metricRegistry->increaseSentCounter(1, $destination);
-            $this->metricRegistry->observeSentDurationOperation($durationSeconds, $destination);
+            $this->metricRegistry->increaseSentCounter(1, $destination, $messageClass);
+            $this->metricRegistry->observeSentDurationOperation($durationSeconds, $destination, $messageClass);
         }
     }
 }

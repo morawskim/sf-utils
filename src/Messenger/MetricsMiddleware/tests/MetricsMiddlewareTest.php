@@ -47,13 +47,16 @@ class MetricsMiddlewareTest extends TestCase
         $sentTotal = $this->findMetricByName($metrics, 'sf_messenger_sent_messages_total');
         $this->assertNotNull($sentTotal);
         $this->assertEquals(1, $sentTotal->getSamples()[0]->getValue());
-        $this->assertEquals(['MyTransportAlias'], $sentTotal->getSamples()[0]->getLabelValues());
+        $this->assertEquals(['MyTransportAlias', 'stdClass'], $sentTotal->getSamples()[0]->getLabelValues());
 
         $sentDuration = $this->findMetricByName($metrics, 'sf_messenger_sent_messages_duration_seconds');
         $this->assertNotNull($sentDuration);
     }
 
     #[DataProvider('providerForTestRecordsMetricsForConsumedMessage')]
+    /**
+     * @dataProvider providerForTestRecordsMetricsForConsumedMessage
+     */
     public function testRecordsMetricsForConsumedMessage(StampInterface $stamp, string $expectedTransportLabelValue): void
     {
         $envelope = new Envelope(new \stdClass(), [
@@ -71,7 +74,7 @@ class MetricsMiddlewareTest extends TestCase
         $processedTotal = $this->findMetricByName($metrics, 'sf_messenger_processed_messages_total');
         $this->assertNotNull($processedTotal);
         $this->assertEquals(1, $processedTotal->getSamples()[0]->getValue());
-        $this->assertEquals([$expectedTransportLabelValue, '0'], $processedTotal->getSamples()[0]->getLabelValues());
+        $this->assertEquals([$expectedTransportLabelValue, '0', 'stdClass'], $processedTotal->getSamples()[0]->getLabelValues());
 
         $processedDuration = $this->findMetricByName($metrics, 'sf_messenger_processed_messages_duration_seconds');
         $this->assertNotNull($processedDuration);
@@ -114,7 +117,7 @@ class MetricsMiddlewareTest extends TestCase
         $processedTotal = $this->findMetricByName($metrics, 'sf_messenger_processed_messages_total');
         $this->assertNotNull($processedTotal);
         $this->assertEquals(1, $processedTotal->getSamples()[0]->getValue());
-        $this->assertEquals(['my_transport', '1'], $processedTotal->getSamples()[0]->getLabelValues());
+        $this->assertEquals(['my_transport', '1', 'stdClass'], $processedTotal->getSamples()[0]->getLabelValues());
 
         $processedDuration = $this->findMetricByName($metrics, 'sf_messenger_processed_messages_duration_seconds');
         $this->assertNotNull($processedDuration);
