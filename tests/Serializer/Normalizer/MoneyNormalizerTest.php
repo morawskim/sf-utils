@@ -8,6 +8,7 @@ use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 
 class MoneyNormalizerTest extends TestCase
 {
@@ -18,6 +19,10 @@ class MoneyNormalizerTest extends TestCase
     {
         if (!class_exists(Serializer::class)) {
             $this->markTestSkipped('The Symfony Serializer is not available.');
+        }
+
+        if (!class_exists(CacheableSupportsMethodInterface::class)) {
+            $this->markTestSkipped('The Symfony is too old.');
         }
 
         $this->normalizer = new MoneyNormalizer();

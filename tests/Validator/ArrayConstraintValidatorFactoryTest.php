@@ -38,7 +38,7 @@ class ArrayConstraintValidatorFactoryTest extends TestCase
                 $this->validatedBy = $validatedBy;
             }
 
-            public function validatedBy()
+            public function validatedBy(): string
             {
                 return $this->validatedBy;
             }
